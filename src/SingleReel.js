@@ -70,6 +70,8 @@ export default function SingleReel({ url }) {
                     ref={vidRef}
                     src={url}
                     loop
+                    autoPlay
+                    muted
                     onWaiting={handleWaiting}
                     onCanPlayThrough={handleCanPlayThrough}
                 />
