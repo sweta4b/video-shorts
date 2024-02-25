@@ -6,6 +6,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 export default function SingleReel({ url }) {
     const [isVideoPlaying, setisVideoPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [isBuffering, setIsBuffering] = useState(false);
     const vidRef = useRef();
 
     const onVideoClick = () => {
@@ -51,6 +52,14 @@ export default function SingleReel({ url }) {
         setProgress((e.target.currentTime / e.target.duration) * 100);
     };
 
+    const handleWaiting = () => {
+        setIsBuffering(true);
+    };
+
+    const handleCanPlayThrough = () => {
+        setIsBuffering(false);
+    };
+
     return (
         <div className="video-cards">
             <div>
@@ -61,7 +70,14 @@ export default function SingleReel({ url }) {
                     ref={vidRef}
                     src={url}
                     loop
+                    onWaiting={handleWaiting}
+                    onCanPlayThrough={handleCanPlayThrough}
                 />
+                {isBuffering && (
+                    <div className="buffering-overlay">
+                        Buffering...
+                    </div>
+                )}
                 <div className="video-controls">
                     <button onClick={onVideoClick} className="play-button">
                         {isVideoPlaying ? <PauseCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
