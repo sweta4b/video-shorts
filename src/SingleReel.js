@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Footer from "./Footer";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import { CircularProgress } from "@mui/material";
 
 export default function SingleReel({ url }) {
     const [isVideoPlaying, setisVideoPlaying] = useState(false);
@@ -45,6 +46,7 @@ export default function SingleReel({ url }) {
             observer.unobserve(vidRef.current);
         };
     }, []);
+    
 
     const handleProgress = (e) => {
         if (isNaN(e.target.duration))
@@ -61,37 +63,39 @@ export default function SingleReel({ url }) {
     };
 
     return (
-        <div className="video-cards">
-            <div>
-                <video
-                    className="video-player"
-                    onTimeUpdate={handleProgress}
-                    onClick={onVideoClick}
-                    ref={vidRef}
-                    src={url}
-                    loop
-                    autoPlay
-                    muted
-                    onWaiting={handleWaiting}
-                    onCanPlayThrough={handleCanPlayThrough}
-                />
-                {isBuffering && (
-                    <div className="buffering-overlay">
-                        Buffering...
-                    </div>
-                )}
-                <div className="video-controls">
-                    <button onClick={onVideoClick} className="play-button">
-                        {isVideoPlaying ? <PauseCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
-                    </button>
-                    <progress id="progress" max="100" value={progress}>
-                        Progress
-                    </progress>
-                    <div>
+
+            <div className="video-cards">
+                <div style={{ position: 'relative' }}>
+                    <video
+                        className="video-player"
+                        onTimeUpdate={handleProgress}
+                        onClick={onVideoClick}
+                        ref={vidRef}
+                        src={url}
+                        loop
+                        autoPlay
+                        muted
+                        onWaiting={handleWaiting}
+                        onCanPlayThrough={handleCanPlayThrough}
+                    />
+                    {isBuffering && (
+                        <div className="loader" >
+                            <div className="buffering-overlay">
+                                <CircularProgress />
+                            </div>
+                        </div>
+                    )}
+                    <div className="video-controls">
+                        <button onClick={onVideoClick} className="play-button">
+                            {isVideoPlaying ? <PauseCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
+                        </button>
+                        <progress id="progress" max="100" value={progress}>
+                            Progress
+                        </progress>
                     </div>
                 </div>
+                <Footer />
             </div>
-            <Footer/>
-        </div>
-    );
+        );
+        
 }
