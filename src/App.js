@@ -12,6 +12,7 @@ export default function App() {
             <SingleReel
               key={i}
               url={list.url}
+              title={list.title}
             />
           ))}
         </div>

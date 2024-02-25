@@ -2,12 +2,14 @@ import React, { useRef, useState, useEffect } from "react";
 import Footer from "./Footer";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CircularProgress } from "@mui/material";
 
-export default function SingleReel({ url }) {
+export default function SingleReel({ url, title }) {
     const [isVideoPlaying, setisVideoPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
     const [isBuffering, setIsBuffering] = useState(false);
+    const [isLiked, setIsLiked] = useState(false)
     const vidRef = useRef();
 
     const onVideoClick = () => {
@@ -19,6 +21,12 @@ export default function SingleReel({ url }) {
             setisVideoPlaying(true);
         }
     };
+
+
+
+    const handleLikeButton = () => {
+        setIsLiked(!isLiked)
+    }
 
     useEffect(() => {
         const options = {
@@ -46,7 +54,7 @@ export default function SingleReel({ url }) {
             observer.unobserve(vidRef.current);
         };
     }, []);
-    
+
 
     const handleProgress = (e) => {
         if (isNaN(e.target.duration))
@@ -64,38 +72,41 @@ export default function SingleReel({ url }) {
 
     return (
 
-            <div className="video-cards">
-                <div style={{ position: 'relative' }}>
-                    <video
-                        className="video-player"
-                        onTimeUpdate={handleProgress}
-                        onClick={onVideoClick}
-                        ref={vidRef}
-                        src={url}
-                        loop
-                        autoPlay
-                        muted
-                        onWaiting={handleWaiting}
-                        onCanPlayThrough={handleCanPlayThrough}
-                    />
-                    {isBuffering && (
-                        <div className="loader" >
-                            <div className="buffering-overlay">
-                                <CircularProgress />
-                            </div>
-                        </div>
-                    )}
-                    <div className="video-controls">
-                        <button onClick={onVideoClick} className="play-button">
-                            {isVideoPlaying ? <PauseCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
-                        </button>
-                        <progress id="progress" max="100" value={progress}>
-                            Progress
-                        </progress>
+        <div className="video-cards">
+            <video
+                className="video-player"
+                onTimeUpdate={handleProgress}
+                onClick={onVideoClick}
+                ref={vidRef}
+                src={url}
+                loop
+                autoPlay
+                muted
+                onWaiting={handleWaiting}
+                onCanPlayThrough={handleCanPlayThrough}
+            />
+            {isBuffering && (
+                <div className="loader" >
+                    <div className="buffering-overlay">
+                        <CircularProgress />
                     </div>
                 </div>
-                <Footer />
+            )}
+            <div className="video-controls">
+                <button onClick={onVideoClick} className="play-button">
+                    {isVideoPlaying ? <PauseCircleIcon fontSize="large" /> : <PlayCircleIcon fontSize="large" />}
+                </button>
+                <p className="title">{title}</p>
+                <div className="like">
+                    <FavoriteIcon onClick={handleLikeButton} sx={{ color: isLiked ? "red" : "white" }} />
+                </div>
+                <progress id="progress" max="100" value={progress}>
+                    Progress
+                </progress>
+                
+
             </div>
-        );
-        
+        </div>
+    );
+
 }

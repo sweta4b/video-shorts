@@ -1,26 +1,14 @@
 export const videoData = [
     {
-        channel: "aaa",
-        song: "song-1",
+        title: "Drive in Mountains",
         url: "/video1.mp4",
-        likes: 32,
-        comment: 2,
-        shares: 23,
       },
       {
-        channel: "aaa",
-        song: "song-1",
+        title: "Golden hour in wheat field",
         url: "/video2.mp4",
-        likes: 32,
-        comment: 2,
-        shares: 23,
       },
       {
-        channel: "aaa",
-        song: "song-1",
+        title: "Morning sea breeze",
         url: "/video3.mp4",
-        likes: 32,
-        comment: 2,
-        shares: 23,
       },
 ]
